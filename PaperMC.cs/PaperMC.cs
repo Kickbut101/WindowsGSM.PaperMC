@@ -16,8 +16,8 @@ namespace WindowsGSM.Plugins
         // - Plugin Details
         public Plugin Plugin = new Plugin
         {
-            name = "WindowsGSM.PaperMC", // WindowsGSM.XXXX
-            author = "BattlefieldDuck",
+            name = "WindowsGSM.PaperMC.JavaNeutral", // WindowsGSM.XXXX
+            author = "Andy",
             description = "🧩 WindowsGSM plugin for supporting Minecraft: Paper Server",
             version = "1.0",
             url = "https://github.com/BattlefieldDuck/WindowsGSM.PaperMC", // Github repository link (Best practice)
@@ -64,12 +64,16 @@ namespace WindowsGSM.Plugins
         // - Start server function, return its Process to WindowsGSM
         public async Task<Process> Start()
         {
-            // Check Java exists
-            var javaPath = JavaHelper.FindJavaExecutableAbsolutePath();
-            if (javaPath.Length == 0)
+            // Get Java location and concatenate a string based on JAVA_HOME
+            var javahomepath = Environment.GetEnvironmentVariable("JAVA_HOME");
+            if (javahomepath.Length == 0)
             {
                 Error = "Java is not installed";
                 return null;
+            }
+            else
+            {
+                var javapath = javahomepath + "bin\\java.exe";
             }
 
             // Prepare start parameter
@@ -160,7 +164,7 @@ namespace WindowsGSM.Plugins
                 return null;
             }
 
-            // Install Java if not installed
+            /* Install Java if not installed
             if (!JavaHelper.IsJREInstalled())
             {
                 var taskResult = await JavaHelper.DownloadJREToServer(_serverData.ServerID);
@@ -169,7 +173,7 @@ namespace WindowsGSM.Plugins
                     Error = taskResult.error;
                     return null;
                 }
-            }
+            } */
 
             // Try getting the latest version and build
             var build = await GetRemoteBuild(); // "1.16.1/133"
