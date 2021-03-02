@@ -65,7 +65,7 @@ namespace WindowsGSM.Plugins
         public async Task<Process> Start()
         {
             // Get Java location and concatenate a string based on JAVA_HOME
-            var javahomepath = Environment.GetEnvironmentVariable("JAVA_HOME");
+            var javahomepath = Environment.GetEnvironmentVariable("JAVA64_HOME");
             if (javahomepath.Length == 0)
             {
                 Error = "Java is not installed";
@@ -163,17 +163,6 @@ namespace WindowsGSM.Plugins
                 Error = "Disagree to the EULA";
                 return null;
             }
-
-            /* Install Java if not installed
-            if (!JavaHelper.IsJREInstalled())
-            {
-                var taskResult = await JavaHelper.DownloadJREToServer(_serverData.ServerID);
-                if (!taskResult.installed)
-                {
-                    Error = taskResult.error;
-                    return null;
-                }
-            } */
 
             // Try getting the latest version and build
             var build = await GetRemoteBuild(); // "1.16.1/133"
