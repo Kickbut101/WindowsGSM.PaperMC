@@ -19,7 +19,7 @@ namespace WindowsGSM.Plugins
             name = "WindowsGSM.PaperMC.JavaNeutral", // WindowsGSM.XXXX
             author = "Andy",
             description = "🧩 WindowsGSM plugin for supporting Minecraft: Paper Server",
-            version = "1.0",
+            version = "1.1",
             url = "https://github.com/BattlefieldDuck/WindowsGSM.PaperMC", // Github repository link (Best practice)
             color = "#ffffff" // Color Hex
         };
@@ -66,15 +66,7 @@ namespace WindowsGSM.Plugins
         {
             // Get Java location and concatenate a string based on JAVA_HOME
             var javahomepath = Environment.GetEnvironmentVariable("JAVA64_HOME");
-            if (javahomepath.Length == 0)
-            {
-                Error = "Java is not installed";
-                return null;
-            }
-            else
-            {
-                var javapath = javahomepath + "bin\\java.exe";
-            }
+            var javapath = javahomepath + "bin\\java.exe";
 
             // Prepare start parameter
             var param = new StringBuilder($"{_serverData.ServerParam} -jar {StartPath} nogui");
@@ -85,7 +77,7 @@ namespace WindowsGSM.Plugins
                 StartInfo =
                 {
                     WorkingDirectory = ServerPath.GetServersServerFiles(_serverData.ServerID),
-                    FileName = javaPath,
+                    FileName = javapath,
                     Arguments = param.ToString(),
                     WindowStyle = ProcessWindowStyle.Minimized,
                     UseShellExecute = false
